@@ -37,15 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import coil.compose.rememberImagePainter
-import coil.size.Scale
-import coil.transform.CircleCropTransformation
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.source.ProgressiveMediaSource
-import com.google.android.exoplayer2.ui.PlayerView
-import com.google.android.exoplayer2.upstream.DataSource
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.util.Util
+
 
 @Composable
 fun NewsItem(news: NewsDomainModel, context: Context) {
@@ -60,7 +52,6 @@ fun NewsItem(news: NewsDomainModel, context: Context) {
             .padding(8.dp, 4.dp)
             .fillMaxWidth()
             .height(extraPadding)
-//            .padding(bottom = extraPadding)
             .border(1.5.dp, MaterialTheme.colors.secondaryVariant),
         shape = RoundedCornerShape(8.dp),
         elevation = 4.dp,
@@ -88,7 +79,6 @@ fun NewsItem(news: NewsDomainModel, context: Context) {
                 )
 
                 Column(
-//                    verticalArrangement = Arrangement.Center,
                     modifier = Modifier
                         .padding(4.dp)
                         .fillMaxSize()
@@ -102,49 +92,8 @@ fun NewsItem(news: NewsDomainModel, context: Context) {
                         maxLines = if (isExpanded) Int.MAX_VALUE else 1,
                     )
 
-//                    Text(
-//                        text = news.publishedAt.orEmpty(),
-//                        style = MaterialTheme.typography.subtitle1,
-//                        fontWeight = FontWeight.Bold
-//                    )
                 }
             }
         }
-    }
-}
-
-@Composable
-fun VideoView(mediaUri: String) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-
-        // Fetching the Local Context
-        val mContext = LocalContext.current
-
-        // Declaring a string value
-        // that stores raw video url
-        val mVideoUrl = mediaUri
-
-        // Declaring ExoPlayer
-        val mExoPlayer = remember(mContext) {
-            ExoPlayer.Builder(mContext).build().apply {
-                val dataSourceFactory = DefaultDataSourceFactory(
-                    mContext, Util.getUserAgent(mContext, mContext.packageName)
-                )
-//                val source = ProgressiveMediaSource.Factory(dataSourceFactory)
-//                    .createMediaSource(Uri.parse(mVideoUrl))
-//                prepare(source)
-            }
-        }
-
-        // Implementing ExoPlayer
-        AndroidView(factory = { context ->
-            PlayerView(context).apply {
-                player = mExoPlayer
-            }
-        })
     }
 }

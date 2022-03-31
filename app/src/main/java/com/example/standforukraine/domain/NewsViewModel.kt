@@ -19,11 +19,6 @@ class NewsViewModel @Inject constructor(
         MutableStateFlow(ArrayList())
     var stateFlow: StateFlow<List<NewsDomainModel>> = mutableStateFlow.asStateFlow()
 
-//    private val mutableStateFlow: MutableStateFlow<NewsStates<List<NewsDomainModel>>> =
-//        MutableStateFlow(NewsStates.loading(ArrayList()))
-//    var stateFlow: StateFlow<NewsStates<List<NewsDomainModel>>> = mutableStateFlow.asStateFlow()
-
-
     fun startNews() {
         viewModelScope.launch {
             newsRepository.requestNews()
@@ -36,7 +31,6 @@ class NewsViewModel @Inject constructor(
                 }
                 .catch { e ->
 //                    mutableStateFlow.value = NewsStates.error("asd", null)
-                    Log.e("MainActivity", "startNews: $e ")
                 }
                 .flowOn(Dispatchers.IO)
                 .collect {
