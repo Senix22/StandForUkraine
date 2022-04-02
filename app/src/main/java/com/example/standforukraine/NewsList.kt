@@ -5,54 +5,72 @@ import com.example.standforukraine.util.convertLongToTime
 
 
 import android.content.Context
-import android.net.Uri
-import android.view.ViewGroup
-import android.view.ViewGroup.*
-import android.widget.FrameLayout
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
 import coil.compose.rememberImagePainter
+import com.google.accompanist.imageloading.rememberDrawablePainter
 
 
 @Composable
-fun NewsItem(news: NewsDomainModel, context: Context) {
+fun NewsItem(news: NewsDomainModel) {
     var isExpanded by remember { mutableStateOf(false) }
     val extraPadding by animateDpAsState(
-        if (isExpanded) 250.dp else 150.dp, animationSpec = spring(
+        if (isExpanded) 300.dp else 150.dp, animationSpec = spring(
             dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessLow
         )
     )
+    Image(
+        modifier = Modifier.fillMaxSize(),
+        painter = rememberDrawablePainter(
+            drawable = ContextCompat.getDrawable(
+                LocalContext.current,
+                R.drawable.background_gradien
+            )
+        ),
+        contentDescription = null,
+//        contentScale = ContentScale.FillBounds
+    )
     Card(
         modifier = Modifier
-            .padding(8.dp, 4.dp)
+            .padding(1.dp, 1.dp)
             .fillMaxWidth()
-            .height(extraPadding)
-            .border(1.5.dp, MaterialTheme.colors.secondaryVariant),
+            .height(150.dp),
+//        shape = RoundedCornerShape(8.dp)
+    ) {
+        val painter =
+            rememberImagePainter(news.medias?.firstOrNull()?.mediaUrl)
+
+        Image(
+            painter = painter,
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .padding(start = 4.dp, top = 1.dp)
+                .fillMaxSize()
+        )
+    }
+
+    Card(
+        modifier = Modifier
+            .padding(8.dp, 0.dp)
+            .fillMaxWidth()
+            .height(extraPadding),
         shape = RoundedCornerShape(8.dp),
         elevation = 4.dp,
     ) {
@@ -62,18 +80,7 @@ fun NewsItem(news: NewsDomainModel, context: Context) {
                     .padding(4.dp)
                     .fillMaxSize()
             ) {
-                val painter =
-                    rememberImagePainter(news.medias?.firstOrNull()?.mediaUrl)
 
-                Image(
-                    painter = painter,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .padding(start = 4.dp, top = 1.dp)
-                        .size(64.dp)
-                        .align(CenterHorizontally)
-                )
                 Text(
                     text = convertLongToTime(news.date!!), color = Color.Black
                 )
@@ -89,9 +96,10 @@ fun NewsItem(news: NewsDomainModel, context: Context) {
                         text = news.text.orEmpty(),
                         style = MaterialTheme.typography.subtitle1,
                         fontWeight = FontWeight.Bold,
-                        maxLines = if (isExpanded) Int.MAX_VALUE else 1,
+//                        maxLines = if (isExpanded) Int.MAX_VALUE else 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f)
                     )
-
                 }
             }
         }

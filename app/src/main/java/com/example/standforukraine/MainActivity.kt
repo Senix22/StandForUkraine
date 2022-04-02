@@ -18,7 +18,6 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.Theme_StandForUkraine_Launcher)
         super.onCreate(savedInstanceState)
         setContent {
             val newsList = viewModel.stateFlow.collectAsState().value

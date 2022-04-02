@@ -3,6 +3,7 @@
 
     <style name="Theme.StandForUkraine" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/purple_700</item>
+        <item name="background">@drawable/background_gradien</item>
     </style>
 
     <style name="Theme.StandForUkraine.Launcher">
