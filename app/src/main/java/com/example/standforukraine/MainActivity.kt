@@ -18,6 +18,7 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_StandForUkraine_Launcher)
         super.onCreate(savedInstanceState)
         setContent {
             val newsList = viewModel.stateFlow.collectAsState().value
@@ -25,7 +26,7 @@ class MainActivity : ComponentActivity() {
                 itemsIndexed(
                     items = newsList
                 ){ _, recipe ->
-                    NewsItem(recipe,this@MainActivity)
+                    NewsItem(recipe)
                 }
             }
 
